@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using GenerativeAI;
+using GenerativeAI.Web;
 using MeDesenvolveIA.Domain;
 using MeDesenvolveIA.Shareable;
 using MeDesenvolveIA.Shareable.Behaviors;
@@ -18,8 +20,24 @@ public static class AppServiceCollectionExtensions
 				typeof(ValidationBehavior<,>).Assembly)
 		);
 
+		services.ConfigureGoogleGemini(configuration);
+
 		services.AddValidatorsFromAssemblyContaining<IShareableEntryPoint>();
 		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+	}
 
+	private static void ConfigureGoogleGemini(this IServiceCollection services, IConfiguration configuration)
+	{
+		var apiKey = configuration["GoogleGemini:ApiKey"] ?? throw new InvalidOperationException("A chave da API do Google Gemini não foi configurada.");
+
+		services.AddGenerativeAI(new GenerativeAIOptions()
+		{
+			Model = GoogleAIModels.Gemini2Flash,
+			Credentials = new GoogleAICredentials()
+			{
+				ApiKey = apiKey
+			}
+
+		}).WithAdc();
 	}
 }

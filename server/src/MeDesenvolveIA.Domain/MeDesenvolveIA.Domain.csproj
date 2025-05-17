@@ -8,8 +8,16 @@
 
   <ItemGroup>
     <Folder Include="Entities\" />
-    <Folder Include="Handlers\" />
     <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google_GenerativeAI.Web" Version="2.5.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MeDesenvolveIA.Shareable\MeDesenvolveIA.Shareable.csproj" />
   </ItemGroup>
 
 </Project>
